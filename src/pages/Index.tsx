@@ -320,6 +320,107 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="py-20 bg-gradient-to-br from-accent/10 to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-primary mb-4">Почему выбирают нас</h2>
+            <p className="text-muted-foreground text-lg">
+              Гарантируем качество и профессиональный подход
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow border-2 border-transparent hover:border-accent">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Shield" size={32} className="text-accent" />
+                </div>
+                <h3 className="font-bold text-lg mb-2 text-primary">Гарантия 2 года</h3>
+                <p className="text-muted-foreground text-sm">
+                  На все виды работ и используемые материалы
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow border-2 border-transparent hover:border-accent">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Home" size={32} className="text-accent" />
+                </div>
+                <h3 className="font-bold text-lg mb-2 text-primary">Выезд на дом</h3>
+                <p className="text-muted-foreground text-sm">
+                  Бесплатный выезд мастера для замера и оценки
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow border-2 border-transparent hover:border-accent">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Palette" size={32} className="text-accent" />
+                </div>
+                <h3 className="font-bold text-lg mb-2 text-primary">Каталог 500+ тканей</h3>
+                <p className="text-muted-foreground text-sm">
+                  Огромный выбор материалов на любой вкус и бюджет
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow border-2 border-transparent hover:border-accent">
+              <CardContent className="p-0">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Clock" size={32} className="text-accent" />
+                </div>
+                <h3 className="font-bold text-lg mb-2 text-primary">Сроки 7-14 дней</h3>
+                <p className="text-muted-foreground text-sm">
+                  Быстрое выполнение работ без потери качества
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-16 bg-gradient-to-r from-primary to-accent text-white rounded-2xl p-8 md:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-3xl font-bold mb-4">Специальное предложение</h3>
+                <p className="text-xl mb-6 text-white/90">
+                  Скидка 15% на перетяжку при заказе от 2-х предметов мебели
+                </p>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center gap-3">
+                    <Icon name="Check" size={24} className="text-white flex-shrink-0" />
+                    <span>Бесплатная консультация дизайнера</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Icon name="Check" size={24} className="text-white flex-shrink-0" />
+                    <span>Бесплатная доставка по Новороссийску</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Icon name="Check" size={24} className="text-white flex-shrink-0" />
+                    <span>Подарок — защитное средство для ткани</span>
+                  </li>
+                </ul>
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8" asChild>
+                  <a href="#contact">Получить скидку</a>
+                </Button>
+              </div>
+              <div className="hidden md:flex items-center justify-center">
+                <div className="relative">
+                  <div className="w-48 h-48 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <div className="text-center">
+                      <div className="text-6xl font-bold">-15%</div>
+                      <div className="text-lg">на заказ</div>
+                    </div>
+                  </div>
+                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse">
+                    <Icon name="Gift" size={40} className="text-primary" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section 
         id="services" 
         ref={(el) => (sectionsRef.current['services'] = el)}

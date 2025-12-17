@@ -771,6 +771,105 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-primary mb-4">Как нас найти</h2>
+            <p className="text-muted-foreground text-lg">
+              Приезжайте к нам в мастерскую или вызовите мастера на дом
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="MapPin" size={24} className="text-accent" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-2 text-primary">Адрес мастерской</h3>
+                      <p className="text-muted-foreground">
+                        г. Новороссийск, ул. Советов, 50<br />
+                        (вход со двора, 2 этаж)
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Phone" size={24} className="text-accent" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-2 text-primary">Телефон</h3>
+                      <a href="tel:+79001234567" className="text-accent hover:underline text-lg font-semibold">
+                        +7 (900) 123-45-67
+                      </a>
+                      <p className="text-muted-foreground text-sm mt-1">
+                        Звоните ежедневно с 9:00 до 19:00
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Mail" size={24} className="text-accent" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-2 text-primary">Email</h3>
+                      <a href="mailto:info@mebel-nvrsk.ru" className="text-accent hover:underline">
+                        info@mebel-nvrsk.ru
+                      </a>
+                      <p className="text-muted-foreground text-sm mt-1">
+                        Ответим в течение 1 часа
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon name="Clock" size={24} className="text-accent" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-2 text-primary">Режим работы</h3>
+                      <div className="space-y-1 text-muted-foreground">
+                        <p>Пн-Пт: 9:00 - 19:00</p>
+                        <p>Сб: 10:00 - 16:00</p>
+                        <p>Вс: Выходной</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="relative h-[500px] rounded-xl overflow-hidden shadow-lg">
+              <iframe
+                src="https://yandex.ru/map-widget/v1/?ll=37.771357%2C44.723888&z=16&l=map&pt=37.771357,44.723888,pm2rdm"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allowFullScreen
+                className="w-full h-full"
+                title="Карта расположения"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <footer className="bg-secondary/50 py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">

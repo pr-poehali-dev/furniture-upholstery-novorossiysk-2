@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Icon from "@/components/ui/icon";
 import { useState, useEffect, useRef } from "react";
 
@@ -18,6 +19,49 @@ const Index = () => {
   const [counters, setCounters] = useState({ projects: 0, years: 0, clients: 0 });
   const [hasCounterStarted, setHasCounterStarted] = useState(false);
   const statsRef = useRef<HTMLDivElement | null>(null);
+  
+  const [calculator, setCalculator] = useState({
+    furnitureType: "",
+    material: "",
+    size: ""
+  });
+  const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+
+  const furnitureTypes = [
+    { value: "sofa", label: "Диван", basePrice: 15000 },
+    { value: "armchair", label: "Кресло", basePrice: 8000 },
+    { value: "chair", label: "Стул", basePrice: 3000 },
+    { value: "ottoman", label: "Пуф", basePrice: 4000 },
+    { value: "corner-sofa", label: "Угловой диван", basePrice: 25000 }
+  ];
+
+  const materials = [
+    { value: "fabric", label: "Ткань", multiplier: 1 },
+    { value: "leather", label: "Экокожа", multiplier: 1.3 },
+    { value: "genuine-leather", label: "Натуральная кожа", multiplier: 2 },
+    { value: "velvet", label: "Велюр", multiplier: 1.4 }
+  ];
+
+  const sizes = [
+    { value: "small", label: "Маленький", multiplier: 0.8 },
+    { value: "medium", label: "Средний", multiplier: 1 },
+    { value: "large", label: "Большой", multiplier: 1.3 }
+  ];
+
+  useEffect(() => {
+    if (calculator.furnitureType && calculator.material && calculator.size) {
+      const furniture = furnitureTypes.find(f => f.value === calculator.furnitureType);
+      const material = materials.find(m => m.value === calculator.material);
+      const size = sizes.find(s => s.value === calculator.size);
+      
+      if (furniture && material && size) {
+        const price = Math.round(furniture.basePrice * material.multiplier * size.multiplier);
+        setEstimatedPrice(price);
+      }
+    } else {
+      setEstimatedPrice(null);
+    }
+  }, [calculator]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -371,6 +415,102 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-primary mb-4">Калькулятор стоимости</h2>
+              <p className="text-muted-foreground text-lg">
+                Рассчитайте примерную стоимость перетяжки вашей мебели
+              </p>
+            </div>
+            <Card className="shadow-lg">
+              <CardContent className="p-8">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-foreground">Тип мебели</label>
+                    <Select 
+                      value={calculator.furnitureType} 
+                      onValueChange={(value) => setCalculator({...calculator, furnitureType: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите тип мебели" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {furnitureTypes.map((type) => (
+                          <SelectItem key={type.value} value={type.value}>
+                            {type.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-foreground">Материал</label>
+                    <Select 
+                      value={calculator.material} 
+                      onValueChange={(value) => setCalculator({...calculator, material: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите материал" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {materials.map((material) => (
+                          <SelectItem key={material.value} value={material.value}>
+                            {material.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-foreground">Размер</label>
+                    <Select 
+                      value={calculator.size} 
+                      onValueChange={(value) => setCalculator({...calculator, size: value})}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите размер" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {sizes.map((size) => (
+                          <SelectItem key={size.value} value={size.value}>
+                            {size.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {estimatedPrice && (
+                    <div className="mt-8 p-6 bg-primary/5 rounded-lg border-2 border-primary">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground mb-2">Примерная стоимость</p>
+                        <p className="text-4xl font-bold text-primary">
+                          {estimatedPrice.toLocaleString('ru-RU')} ₽
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          * Точная цена определяется после осмотра
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <Button 
+                    className="w-full bg-accent hover:bg-accent/90 text-white text-lg py-6"
+                    asChild
+                  >
+                    <a href="#contact">Записаться на бесплатный замер</a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

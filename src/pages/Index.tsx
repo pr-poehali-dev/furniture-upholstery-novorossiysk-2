@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ const Index = () => {
     phone: "",
     message: ""
   });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,10 +68,64 @@ const Index = () => {
             <a href="#reviews" className="text-foreground hover:text-accent transition">Отзывы</a>
             <a href="#contact" className="text-foreground hover:text-accent transition">Контакты</a>
           </nav>
-          <a href="tel:+79001234567" className="flex items-center gap-2 font-semibold text-primary">
-            <Icon name="Phone" size={20} />
-            <span className="hidden md:inline">+7 (900) 123-45-67</span>
-          </a>
+          <div className="flex items-center gap-3">
+            <a href="tel:+79001234567" className="flex items-center gap-2 font-semibold text-primary">
+              <Icon name="Phone" size={20} />
+              <span className="hidden md:inline">+7 (900) 123-45-67</span>
+            </a>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Icon name="Menu" size={24} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px]">
+                <nav className="flex flex-col gap-6 mt-8">
+                  <a 
+                    href="#services" 
+                    className="text-lg font-medium text-foreground hover:text-accent transition"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Услуги
+                  </a>
+                  <a 
+                    href="#portfolio" 
+                    className="text-lg font-medium text-foreground hover:text-accent transition"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Портфолио
+                  </a>
+                  <a 
+                    href="#process" 
+                    className="text-lg font-medium text-foreground hover:text-accent transition"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Процесс
+                  </a>
+                  <a 
+                    href="#reviews" 
+                    className="text-lg font-medium text-foreground hover:text-accent transition"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Отзывы
+                  </a>
+                  <a 
+                    href="#contact" 
+                    className="text-lg font-medium text-foreground hover:text-accent transition"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Контакты
+                  </a>
+                  <Button asChild className="mt-4 bg-accent hover:bg-accent/90">
+                    <a href="tel:+79001234567" onClick={() => setMobileMenuOpen(false)}>
+                      <Icon name="Phone" size={18} className="mr-2" />
+                      Позвонить
+                    </a>
+                  </Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
 

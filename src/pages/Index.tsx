@@ -15,6 +15,9 @@ const Index = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const sectionsRef = useRef<{ [key: string]: HTMLElement | null }>({});
+  const [counters, setCounters] = useState({ projects: 0, years: 0, clients: 0 });
+  const [hasCounterStarted, setHasCounterStarted] = useState(false);
+  const statsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -34,6 +37,47 @@ const Index = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const statsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasCounterStarted) {
+            setHasCounterStarted(true);
+            const duration = 2000;
+            const steps = 60;
+            const stepDuration = duration / steps;
+            
+            const targets = { projects: 500, years: 15, clients: 350 };
+            let currentStep = 0;
+
+            const interval = setInterval(() => {
+              currentStep++;
+              const progress = currentStep / steps;
+              
+              setCounters({
+                projects: Math.floor(targets.projects * progress),
+                years: Math.floor(targets.years * progress),
+                clients: Math.floor(targets.clients * progress)
+              });
+
+              if (currentStep >= steps) {
+                setCounters(targets);
+                clearInterval(interval);
+              }
+            }, stepDuration);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (statsRef.current) {
+      statsObserver.observe(statsRef.current);
+    }
+
+    return () => statsObserver.disconnect();
+  }, [hasCounterStarted]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,6 +210,25 @@ const Index = () => {
               <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-white/90 border-white text-lg px-8" asChild>
                 <a href="#portfolio">Посмотреть работы</a>
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section ref={statsRef} className="py-16 bg-white border-y border-border">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-5xl font-bold text-primary mb-2">{counters.projects}+</div>
+              <p className="text-lg text-muted-foreground">Выполненных проектов</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl font-bold text-primary mb-2">{counters.years}</div>
+              <p className="text-lg text-muted-foreground">Лет опыта</p>
+            </div>
+            <div className="text-center">
+              <div className="text-5xl font-bold text-primary mb-2">{counters.clients}+</div>
+              <p className="text-lg text-muted-foreground">Довольных клиентов</p>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,27 @@ const Index = () => {
     message: ""
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const sectionsRef = useRef<{ [key: string]: HTMLElement | null }>({});
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    Object.values(sectionsRef.current).forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,7 +150,7 @@ const Index = () => {
         </div>
       </header>
 
-      <section className="bg-gradient-to-br from-primary via-primary to-primary/90 text-white py-24">
+      <section className="bg-gradient-to-br from-primary via-primary to-primary/90 text-white py-24 animate-fade-in">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
@@ -150,7 +171,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="services" className="py-20 bg-secondary/30">
+      <section 
+        id="services" 
+        ref={(el) => (sectionsRef.current['services'] = el)}
+        className={`py-20 bg-secondary/30 transition-all duration-700 ${
+          visibleSections.has('services') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-primary mb-4">Наши услуги</h2>
@@ -174,7 +201,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="portfolio" className="py-20">
+      <section 
+        id="portfolio" 
+        ref={(el) => (sectionsRef.current['portfolio'] = el)}
+        className={`py-20 transition-all duration-700 ${
+          visibleSections.has('portfolio') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-primary mb-4">Портфолио работ</h2>
@@ -210,7 +243,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="process" className="py-20 bg-secondary/30">
+      <section 
+        id="process" 
+        ref={(el) => (sectionsRef.current['process'] = el)}
+        className={`py-20 bg-secondary/30 transition-all duration-700 ${
+          visibleSections.has('process') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-primary mb-4">Как мы работаем</h2>
@@ -241,7 +280,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="reviews" className="py-20">
+      <section 
+        id="reviews" 
+        ref={(el) => (sectionsRef.current['reviews'] = el)}
+        className={`py-20 transition-all duration-700 ${
+          visibleSections.has('reviews') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-primary mb-4">Отзывы клиентов</h2>
@@ -267,7 +312,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="contact" className="py-20 bg-primary text-white">
+      <section 
+        id="contact" 
+        ref={(el) => (sectionsRef.current['contact'] = el)}
+        className={`py-20 bg-primary text-white transition-all duration-700 ${
+          visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">

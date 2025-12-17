@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import Icon from "@/components/ui/icon";
 import { useState, useEffect, useRef } from "react";
 
@@ -28,6 +29,8 @@ const Index = () => {
   });
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<{ before: string; after: string; title: string } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const furnitureTypes = [
     { value: "sofa", label: "Диван", basePrice: 15000 },
@@ -125,11 +128,48 @@ const Index = () => {
     return () => statsObserver.disconnect();
   }, [hasCounterStarted]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Форма отправлена:", formData);
-    alert("Спасибо! Мы свяжемся с вами в ближайшее время.");
-    setFormData({ name: "", phone: "", message: "" });
+    
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      toast({
+        title: "Ошибка",
+        description: "Пожалуйста, заполните все обязательные поля",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const phoneRegex = /^[\d\s\(\)\+\-]+$/;
+    if (!phoneRegex.test(formData.phone) || formData.phone.replace(/\D/g, '').length < 10) {
+      toast({
+        title: "Ошибка",
+        description: "Пожалуйста, введите корректный номер телефона",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Заявка отправлена!",
+        description: "Наш мастер свяжется с вами в течение 15 минут",
+      });
+      
+      setFormData({ name: "", phone: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Ошибка отправки",
+        description: "Попробуйте позже или позвоните нам напрямую",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const services = [
@@ -605,8 +645,20 @@ const Index = () => {
                       className="w-full min-h-[100px]"
                     />
                   </div>
-                  <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-white text-lg">
-                    Получить консультацию
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="w-full bg-accent hover:bg-accent/90 text-white text-lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Icon name="Loader2" size={20} className="mr-2 animate-spin" />
+                        Отправка...
+                      </>
+                    ) : (
+                      "Получить консультацию"
+                    )}
                   </Button>
                   <p className="text-xs text-center text-muted-foreground">
                     Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
 import { useState, useEffect, useRef } from "react";
 
@@ -26,6 +27,7 @@ const Index = () => {
     size: ""
   });
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{ before: string; after: string; title: string } | null>(null);
 
   const furnitureTypes = [
     { value: "sofa", label: "Диван", basePrice: 15000 },
@@ -324,27 +326,61 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {portfolio.map((item, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow">
-                <CardContent className="p-0">
-                  <div className="grid grid-cols-2">
-                    <div className="relative">
-                      <img src={item.before} alt="До" className="w-full h-48 object-cover" />
-                      <div className="absolute top-2 left-2 bg-black/70 text-white px-3 py-1 rounded text-sm font-medium">
-                        ДО
+              <Dialog key={index}>
+                <DialogTrigger asChild>
+                  <Card className="overflow-hidden hover:shadow-xl transition-all cursor-pointer hover:scale-105 duration-300">
+                    <CardContent className="p-0">
+                      <div className="grid grid-cols-2">
+                        <div className="relative">
+                          <img src={item.before} alt="До" className="w-full h-48 object-cover" />
+                          <div className="absolute top-2 left-2 bg-black/70 text-white px-3 py-1 rounded text-sm font-medium">
+                            ДО
+                          </div>
+                        </div>
+                        <div className="relative">
+                          <img src={item.after} alt="После" className="w-full h-48 object-cover" />
+                          <div className="absolute top-2 right-2 bg-accent text-white px-3 py-1 rounded text-sm font-medium">
+                            ПОСЛЕ
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-4 flex items-center justify-between">
+                        <h3 className="font-semibold text-lg">{item.title}</h3>
+                        <Icon name="ZoomIn" size={20} className="text-muted-foreground" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent className="max-w-5xl w-full p-0">
+                  <div className="relative">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4">
+                      <div className="relative">
+                        <img 
+                          src={item.before} 
+                          alt="До" 
+                          className="w-full h-auto object-cover rounded-lg" 
+                        />
+                        <div className="absolute top-4 left-4 bg-black/70 text-white px-4 py-2 rounded text-lg font-medium">
+                          ДО
+                        </div>
+                      </div>
+                      <div className="relative">
+                        <img 
+                          src={item.after} 
+                          alt="После" 
+                          className="w-full h-auto object-cover rounded-lg" 
+                        />
+                        <div className="absolute top-4 right-4 bg-accent text-white px-4 py-2 rounded text-lg font-medium">
+                          ПОСЛЕ
+                        </div>
                       </div>
                     </div>
-                    <div className="relative">
-                      <img src={item.after} alt="После" className="w-full h-48 object-cover" />
-                      <div className="absolute top-2 right-2 bg-accent text-white px-3 py-1 rounded text-sm font-medium">
-                        ПОСЛЕ
-                      </div>
+                    <div className="p-6 border-t">
+                      <h3 className="text-2xl font-bold text-primary text-center">{item.title}</h3>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg">{item.title}</h3>
-                  </div>
-                </CardContent>
-              </Card>
+                </DialogContent>
+              </Dialog>
             ))}
           </div>
         </div>
